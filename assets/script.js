@@ -5,6 +5,7 @@ const button = document.createElement("button");
 let secondsleft = 30;
 let score = 0;
 let timerInterval;
+//stores my quiz questions as objects in an array
 const questions = [
     {
         question: "JavaScript is the programming language of the _____",
@@ -118,13 +119,10 @@ const questions = [
     }
     
 ];
+// sets the current question the quiz is on
 let currentQuestionIndex = 0;
 
-function random(min, max) {
-    const num = Math.floor(Math.random() * (max - min + 1)) + min;
-    return num;
-}
-
+//creates the opening page of game on init
 function init() {
     main.appendChild(h1);
     main.appendChild(p);
@@ -134,7 +132,7 @@ function init() {
     button.textContent = "Begin";
     button.addEventListener("click", start);
 }
-
+//removes the opening page elements and sets a game timer
 function start() {
     currentQuestionIndex = 0;
     main.removeChild(h1);
@@ -155,13 +153,13 @@ function start() {
 
     generateQuestion();
 }
-
+//creates the question
 function generateQuestion() {
     main.appendChild(h1);
     const currentQuestion = questions[currentQuestionIndex];
 
     h1.textContent = currentQuestion.question;
-
+    // iterates through the question object and renders each answer as a button with event listeners
     Object.keys(currentQuestion.answers).forEach(function(key) {
         const button = document.createElement("button");
         button.textContent = currentQuestion.answers[key];
@@ -177,7 +175,7 @@ function generateQuestion() {
         main.appendChild(button);
     });
 }
-
+//clears the current question and updates the question index. checks if quiz is over before generating next question
 function clearQuestionElements() {
     const questionElements = document.querySelectorAll(".select");
     questionElements.forEach(function(element) {
@@ -190,13 +188,13 @@ function clearQuestionElements() {
         secondsleft = 1
     }
 }
-
+// prompt the user for their initials to potentially add their score to the highscore list
 function showResult() {
     clearQuestionElements();
     main.removeChild(timer);
     h1.textContent = "High Scores"
     let input = prompt("Enter your initials (2 characters max)");
-    
+    //checks if initial input is valid
     while (input.length !== 2) {
         alert("Invalid input. Please enter 2 characters only.");
         input = prompt("Enter your initials (2 characters max)");
@@ -213,7 +211,7 @@ function showResult() {
 
     // Keep only the top 10 scores
     highScores = highScores.slice(0, 8);
-
+    // Renders highscores on screen
     for (let i = 0; i < highScores.length; i++) {
         let score = highScores[i];
         let scoreElement = document.createElement("p");
